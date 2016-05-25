@@ -10,10 +10,10 @@
 - [Руководство программиста](https://github.com/Yaroslav-Lahtachev/mp2-lab4/blob/master/README.md#Руководство-программиста)
 	- [Используемые инструменты](https://github.com/Yaroslav-Lahtachev/mp2-lab4/blob/master/README.md#Используемые-инструменты)
 	- [Общая структура проекта](https://github.com/Yaroslav-Lahtachev/mp2-lab4/blob/master/README.md#Общая-структура-проекта)
-	- [Описание структуры программы]()
+	- [Описание структуры проекта](https://github.com/Yaroslav-Lahtachev/mp2-lab4/blob/master/README.md#Описание-структуры-проекта)
 	- [Описание структур данных](https://github.com/Yaroslav-Lahtachev/mp2-lab4/blob/master/README.md#Описание-структур-данных)
-		- [Структура данных "d-арное дерево"]()
-		- [Структура данных "приоритетная очередь"]()
+		- [Структура данных "d-арное дерево"](https://github.com/Yaroslav-Lahtachev/mp2-lab4/blob/master/README.md#Структура-данных-d-арное-дерево)
+		- [Структура данных "приоритетная очередь"](https://github.com/Yaroslav-Lahtachev/mp2-lab4/blob/master/README.md#Структура-данных-приоритетная-очередь)
 	- [Описание алгоритмов](https://github.com/Yaroslav-Lahtachev/mp2-lab4/blob/master/README.md#Описание-алгоритмов)
 		- [Алгоритм Краскала](https://github.com/Yaroslav-Lahtachev/mp2-lab4/blob/master/README.md#Алгоритм-Краскала)
 		- [Алгоритм Дейкстры](https://github.com/Yaroslav-Lahtachev/mp2-lab4/blob/master/README.md#Алгоритм-Дейкстры)
@@ -42,11 +42,11 @@
 Введите требуемые численные значения в специальные формы. 
 И нажмите кнопку **"create random"** .
 
-![start](/img/prog.png)
+![start](/img/prog.PNG)
 
 Получите сгенерированный граф на основе введенных данных.
 
-![start](/img/prog2.png)
+![start](/img/prog2.PNG)
 
 Далее выберете один из двух вариантов: пошаговое построение остовного дерева или построение этого дерева в одно нажатие кнопачки.
 
