@@ -1,17 +1,17 @@
 #include "gtest.h"
 #include "tree_lib.h"
 
-TEST(D_Tree, can_create_heap)
+TEST(BINSEARCH, can_create_heap)
 {
 	ASSERT_NO_THROW(Tree *heap = new Tree(2));
 }
 
-TEST(D_Tree, cant_create_heap_with_negative)
+TEST(BINSEARCH, cant_create_heap_with_negative)
 {
 	ASSERT_ANY_THROW(Tree *heap = new Tree(-5));
 }
 
-TEST(D_Tree, can_add_new_key)
+TEST(BINSEARCH, can_add_new_key)
 {
 	Tree *heap = new Tree(4);
 	Data* i = new Data();
@@ -19,7 +19,7 @@ TEST(D_Tree, can_add_new_key)
 	ASSERT_NO_THROW(heap->input(i));
 }
 
-TEST(D_Tree, cant_add_key_into_full_heap)
+TEST(BINSEARCH, cant_add_key_into_full_heap)
 {
 	Tree *heap = new Tree(4);
 	for (int i = 0; i<MaxSize; i++)
@@ -33,7 +33,7 @@ TEST(D_Tree, cant_add_key_into_full_heap)
 	ASSERT_ANY_THROW(heap->input(key));
 }
 
-TEST(D_Tree, can_add_group_into_heap)
+TEST(BINSEARCH, can_add_group_into_heap)
 {
 	Data **key = new Data*[4];
 	for (int i = 0; i<4; i++)
@@ -44,7 +44,7 @@ TEST(D_Tree, can_add_group_into_heap)
 	Tree *heap = new Tree(4);
 	ASSERT_NO_THROW(heap->inputGroup(key, 4));
 }
-TEST(D_Tree, cant_add_group_into_full_heap)
+TEST(BINSEARCH, cant_add_group_into_full_heap)
 {
 	Tree *heap = new Tree(4);
 	for (int i = 0; i<MaxSize; i++)
@@ -62,7 +62,7 @@ TEST(D_Tree, cant_add_group_into_full_heap)
 	ASSERT_ANY_THROW(heap->inputGroup(gkey, 4));
 }
 
-TEST(D_Tree, can_erase_elem)
+TEST(BINSEARCH, can_erase_elem)
 {
 	Tree *heap = new Tree(2);
 	Data* i0 = new Data();
@@ -74,13 +74,13 @@ TEST(D_Tree, can_erase_elem)
 	ASSERT_NO_THROW(heap->erase());
 }
 
-TEST(D_Tree, cant_erase_elem_from_empty_heap)
+TEST(BINSEARCH, cant_erase_elem_from_empty_heap)
 {
 	Tree *heap = new Tree(4);
 	ASSERT_ANY_THROW(heap->erase());
 }
 
-TEST(D_Tree, erase_works_correctly)
+TEST(BINSEARCH, erase_works_correctly)
 {
 	Tree *heap = new Tree(4);
 	Data* i0 = new Data();
@@ -93,7 +93,7 @@ TEST(D_Tree, erase_works_correctly)
 	EXPECT_EQ(2, i2->priority);
 }
 
-TEST(D_Tree, cant_erase_missing_elem_negativ)
+TEST(BINSEARCH, cant_erase_missing_elem_negativ)
 {
 	Tree *heap = new Tree(4);
 	Data* i0 = new Data();
@@ -105,7 +105,7 @@ TEST(D_Tree, cant_erase_missing_elem_negativ)
 	ASSERT_ANY_THROW(heap->erase(-1));
 }
 
-TEST(D_Tree, cant_erase_missing_elem_to_high)
+TEST(BINSEARCH, cant_erase_missing_elem_to_high)
 {
 	Tree *heap = new Tree(4);
 	Data* i0 = new Data();
@@ -117,7 +117,7 @@ TEST(D_Tree, cant_erase_missing_elem_to_high)
 	ASSERT_ANY_THROW(heap->erase(3));
 }
 
-TEST(D_Tree, can_swap_elem)
+TEST(BINSEARCH, can_swap_elem)
 {
 	Tree *heap = new Tree(4);
 	Data* i0 = new Data();
@@ -129,7 +129,7 @@ TEST(D_Tree, can_swap_elem)
 	ASSERT_NO_THROW(heap->transposing(0, 1));
 }
 
-TEST(D_Tree, swap_works_true)
+TEST(BINSEARCH, swap_works_true)
 {
 	Tree *heap = new Tree(4);
 	Data* i0 = new Data();
@@ -145,7 +145,7 @@ TEST(D_Tree, swap_works_true)
 	EXPECT_EQ(i3->priority, 2);
 }
 
-TEST(D_Tree, cant_swap_elem_with_negativ_idx)
+TEST(BINSEARCH, cant_swap_elem_with_negativ_idx)
 {
 	Tree *heap = new Tree(4);
 	Data* i0 = new Data();
@@ -156,7 +156,7 @@ TEST(D_Tree, cant_swap_elem_with_negativ_idx)
 	heap->input(i1);
 	ASSERT_ANY_THROW(heap->transposing(-1, 1));
 }
-TEST(D_Tree, cant_swap_elem_with_to_high_idx)
+TEST(BINSEARCH, cant_swap_elem_with_to_high_idx)
 {
 	Tree *heap = new Tree(4);
 	Data* i0 = new Data();
@@ -168,7 +168,7 @@ TEST(D_Tree, cant_swap_elem_with_to_high_idx)
 	ASSERT_ANY_THROW(heap->transposing(0, 2));
 }
 
-TEST(D_Tree, can_surfacing)
+TEST(BINSEARCH, can_surfacing)
 {
 	Tree *heap = new Tree(4);
 	Data* i0 = new Data();
@@ -180,7 +180,7 @@ TEST(D_Tree, can_surfacing)
 	ASSERT_NO_THROW(heap->surfacing(0));
 }
 
-TEST(D_Tree, cant_surfacing_with_negativ_idx)
+TEST(BINSEARCH, cant_surfacing_with_negativ_idx)
 {
 	Tree *heap = new Tree(4);
 	Data* i0 = new Data();
@@ -192,7 +192,7 @@ TEST(D_Tree, cant_surfacing_with_negativ_idx)
 	ASSERT_ANY_THROW(heap->surfacing(-1));
 }
 
-TEST(D_Tree, cant_surfacing_with_to_high_idx)
+TEST(BINSEARCH, cant_surfacing_with_to_high_idx)
 {
 	Tree *heap = new Tree(4);
 	Data* i0 = new Data();
@@ -204,7 +204,7 @@ TEST(D_Tree, cant_surfacing_with_to_high_idx)
 	ASSERT_ANY_THROW(heap->surfacing(3));
 }
 
-TEST(D_Tree, can_immersion)
+TEST(BINSEARCH, can_immersion)
 {
 	Tree *heap = new Tree(4);
 	Data* i0 = new Data();
@@ -216,7 +216,7 @@ TEST(D_Tree, can_immersion)
 	ASSERT_NO_THROW(heap->immersion(1));
 }
 
-TEST(D_Tree, immersion_works_true)
+TEST(BINSEARCH, immersion_works_true)
 {
 	Tree *heap = new Tree(4);
 	Data* i0 = new Data();
@@ -232,7 +232,7 @@ TEST(D_Tree, immersion_works_true)
 	EXPECT_EQ(3, heap->erase(2)->priority);
 }
 
-TEST(D_Tree, cant_immersion_with_to_high_idx)
+TEST(BINSEARCH, cant_immersion_with_to_high_idx)
 {
 	Tree *heap = new Tree(4);
 	Data* i0 = new Data();
@@ -244,7 +244,7 @@ TEST(D_Tree, cant_immersion_with_to_high_idx)
 	ASSERT_ANY_THROW(heap->immersion(3));
 }
 
-TEST(D_Tree, cant_immersion_with_negativ_idx)
+TEST(BINSEARCH, cant_immersion_with_negativ_idx)
 {
 	Tree *heap = new Tree(4);
 	Data* i0 = new Data();
@@ -256,7 +256,7 @@ TEST(D_Tree, cant_immersion_with_negativ_idx)
 	ASSERT_ANY_THROW(heap->immersion(-1));
 }
 
-TEST(D_Tree, isFull_work_true)
+TEST(BINSEARCH, isFull_work_true)
 {
 	Tree *heap = new Tree(4);
 	for (int i = 0; i<MaxSize; i++)
@@ -268,7 +268,7 @@ TEST(D_Tree, isFull_work_true)
 	ASSERT_TRUE(heap->isFull());
 }
 
-TEST(D_Tree, isFull_works_true_when_heap_not_full)
+TEST(BINSEARCH, isFull_works_true_when_heap_not_full)
 {
 	Tree *heap = new Tree(4);
 	Data* i0 = new Data();
@@ -277,7 +277,7 @@ TEST(D_Tree, isFull_works_true_when_heap_not_full)
 	ASSERT_FALSE(heap->isFull());
 }
 
-TEST(D_Tree, isEmpty_work_true)
+TEST(BINSEARCH, isEmpty_work_true)
 {
 	Tree *heap = new Tree(4);
 	Data* i0 = new Data();
@@ -287,7 +287,7 @@ TEST(D_Tree, isEmpty_work_true)
 	ASSERT_TRUE(heap->isEmpty());
 }
 
-TEST(D_Tree, isEmpty_works_true_when_heap_not_empty)
+TEST(BINSEARCH, isEmpty_works_true_when_heap_not_empty)
 {
 	Tree *heap = new Tree(4);
 	Data* i0 = new Data();

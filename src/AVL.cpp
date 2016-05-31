@@ -21,10 +21,10 @@ void AVLTree::add(AVLNode *&node)
 		root = node;
 		return;
 	}
-	recursiveIns((AVLNode*&)root, node);
+	ins((AVLNode*&)root, node);
 }
 
-void AVLTree::recursiveIns(AVLNode *&localRoot, AVLNode *&node)
+void AVLTree::ins(AVLNode *&localRoot, AVLNode *&node)
 {
 	if (node->key < localRoot->key) {
 		if (!localRoot->pleft) {
@@ -32,7 +32,7 @@ void AVLTree::recursiveIns(AVLNode *&localRoot, AVLNode *&node)
 			node->parent = localRoot;
 		}
 		else
-			recursiveIns((AVLNode*&)localRoot->pleft, node);
+			ins((AVLNode*&)localRoot->pleft, node);
 	}
 	else {
 		if (!localRoot->pright) {
@@ -40,30 +40,30 @@ void AVLTree::recursiveIns(AVLNode *&localRoot, AVLNode *&node)
 			node->parent = localRoot;
 		}
 		else
-			recursiveIns((AVLNode*&)localRoot->pright, node);
+			ins((AVLNode*&)localRoot->pright, node);
 	}
 
-	decisionOnBalancing(localRoot);
+	needBalance(localRoot);
 }
 
 void AVLTree::del(float key)
 {
-	delete recursiveRem((AVLNode*&)root, key);
+	delete remuve((AVLNode*&)root, key);
 }
 
 void AVLTree::del(Node* node)
 {
-	delete recursiveRem((AVLNode*&)root, node->key);
+	delete remuve((AVLNode*&)root, node->key);
 }
 
 Node* AVLTree::pull(float key)
 {
-	return recursiveRem((AVLNode*&)root, key);
+	return remuve((AVLNode*&)root, key);
 }
 
 Node* AVLTree::pull(Node* node)
 {
-	return recursiveRem((AVLNode*&)root, node->key);
+	return remuve((AVLNode*&)root, node->key);
 }
 
 int AVLTree::rotateRight(AVLNode *&node)
@@ -168,17 +168,18 @@ int AVLTree::DRotateLeft(AVLNode *&node)
 	return depC;
 }
 
-Node* AVLTree::recursiveRem(AVLNode *&localRoot, float key)
+Node* AVLTree::remuve(AVLNode *&localRoot, float key)
 {
-	Node *result;
+	Node *tmp;
 	if (!localRoot)
 		return 0;
 	if (key < localRoot->key)
-		result = recursiveRem((AVLNode*&)localRoot->pleft, key);
+		tmp = remuve((AVLNode*&)localRoot->pleft, key);
 	else if (key > localRoot->key)
-		result = recursiveRem((AVLNode*&)localRoot->pright, key);
+		tmp = remuve((AVLNode*&)localRoot->pright, key);
 	else {
 		if (!localRoot->pleft && !localRoot->pright) {
+			Node* tmp1 = localRoot;
 			if (localRoot->parent)
 				if (localRoot->parent->pleft == localRoot)
 					localRoot->parent->pleft = 0;
@@ -186,11 +187,11 @@ Node* AVLTree::recursiveRem(AVLNode *&localRoot, float key)
 					localRoot->parent->pright = 0;
 			else
 				root = 0;
-			return localRoot;
+			return tmp1;
 		}
 		else if (localRoot->pleft && !localRoot->pright) {
 			Node* son = localRoot->pleft;
-			Node* killed = localRoot;
+			Node* tmp1 = localRoot;
 			son->parent = localRoot->parent;
 			if (localRoot->parent)
 				if (localRoot->parent->pleft == localRoot)
@@ -199,11 +200,11 @@ Node* AVLTree::recursiveRem(AVLNode *&localRoot, float key)
 					localRoot->parent->pright = son;
 			else
 				root = son;
-			return killed;
+			return tmp1;
 		}
 		else if (!localRoot->pleft && localRoot->pright) {
 			Node* son = localRoot->pright;
-			Node* killed = localRoot;
+			Node* tmp1 = localRoot;
 			son->parent = localRoot->parent;
 			if (localRoot->parent)
 				if (localRoot->parent->pleft == localRoot)
@@ -212,11 +213,12 @@ Node* AVLTree::recursiveRem(AVLNode *&localRoot, float key)
 					localRoot->parent->pright = son;
 			else
 				root = son;
-			return killed;
+			return tmp1;
 		}
 		else {
 			Node *next = searchNext(localRoot);
-			pull(next);
+			remuve((AVLNode*&)localRoot->pright, next->key);
+			Node* tmp1 = localRoot;
 			next->pleft = localRoot->pleft;
 			if (next->pleft)
 				next->pleft->parent = next;
@@ -229,42 +231,44 @@ Node* AVLTree::recursiveRem(AVLNode *&localRoot, float key)
 					localRoot->parent->pleft = next;
 				else
 					localRoot->parent->pright = next;
-			return localRoot;
+			else
+				root = next;
+			return tmp1;
 		}
 	}
 
-	decisionOnBalancing(localRoot);
-	return result;
+	needBalance(localRoot);
+	return tmp;
 }
 
-int AVLTree::depth(AVLNode* node)
+int AVLTree::height(AVLNode* node)
 {
 	if (!node)
 		return -1;
-	int l = depth((AVLNode*)node->pleft);
-	int r = depth((AVLNode*)node->pright);
+	int l = height((AVLNode*)node->pleft);
+	int r = height((AVLNode*)node->pright);
 	node->setBalance(l - r);
 	return r > l ? r + 1 : l + 1;
 }
 
 int AVLTree::balanceDetection(AVLNode *node, int &dep)
 {
-	dep = depth(node);
+	dep = height(node);
 	return node->getBalance();
 }
 
-int AVLTree::decisionOnBalancing(AVLNode *&node)
+int AVLTree::needBalance(AVLNode *&node)
 {
 	if (!node)
 		return -1;
 	int dep;
-	char balance = balanceDetection(node, dep);
-	if (balance == 2)
+	char bal = balanceDetection(node, dep);
+	if (bal == 2)
 		if (((AVLNode*)node->pleft)->getBalance() > 0)
 			rotateRight(node);
 		else
 			DRotateRight(node);
-	if (balance == -2)
+	if (bal == -2)
 		if (((AVLNode*)node->pright)->getBalance() < 0)
 			rotateLeft(node);
 		else

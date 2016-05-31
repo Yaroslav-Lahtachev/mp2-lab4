@@ -25,8 +25,8 @@ public:
 	int DRotateRight(AVLNode *&node);
 	int DRotateLeft(AVLNode *&node);
 	int balanceDetection(AVLNode *node, int &dep);
-	int depth(AVLNode *node);
-	int decisionOnBalancing(AVLNode *&node);
-	void recursiveIns(AVLNode *&localRoot, AVLNode *&node);
-	Node* recursiveRem(AVLNode *&localRoot, float key);
+	int height(AVLNode *node);
+	int needBalance(AVLNode *&node);
+	void ins(AVLNode *&localRoot, AVLNode *&node);
+	Node* remuve(AVLNode *&localRoot, float key);
 };

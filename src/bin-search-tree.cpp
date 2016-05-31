@@ -74,7 +74,9 @@ Node* BinSearchTree::searchNext(Node *node)
 }
 
 Node* BinSearchTree::search(float key)
-{
+{ 
+	if (key<0 || key>FLT_MAX)
+		throw "wrong key";
 	Node *tmp = root;
 	if (!tmp)
 		return 0;

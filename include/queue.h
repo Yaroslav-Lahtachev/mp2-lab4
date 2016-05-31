@@ -1,6 +1,7 @@
 #pragma once
 #include "tree_lib.h"
 #include "AVL.h"
+#include "table.h"
 
 enum Qnum {
 	HEAP = 1,
@@ -54,6 +55,22 @@ public:
 	virtual int isEmpty();
 };
 
+class QueueTab : public Queue {
+protected:
+	SortTable* tab;
+public:
+	QueueTab();
+	QueueTab(int Size);
+	~QueueTab();
+
+	virtual void add(Data *&key);
+	virtual Data* popidx(int i);
+	virtual void update() {};
+
+	virtual int isFull();
+	virtual int isEmpty();
+};
+
 class QueueFactory {
 public:
 	static Queue* createQueue(Qnum qid)
@@ -63,6 +80,7 @@ public:
 		{
 		case 1: q = new QueueHeap(); break;
 		case 2: q = new QueueTree(); break;
+		case 3: q = new QueueTab(); break;
 		}
 		return q;
 	}
