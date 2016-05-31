@@ -698,6 +698,7 @@ class SortTable: public ScanTable{
 		}
 	}
 ```
+
 ####Схема наследования классов####
 
 ![start](/img/schem.PNG)
