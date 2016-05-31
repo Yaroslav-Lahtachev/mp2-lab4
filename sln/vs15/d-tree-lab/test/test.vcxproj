@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\test\main_test.cpp" />
+    <ClCompile Include="..\..\..\..\test\test_bin-search_tree.cpp" />
     <ClCompile Include="..\..\..\..\test\test_d-tree.cpp" />
     <ClCompile Include="..\..\..\..\test\test_Dijkstra.cpp" />
     <ClCompile Include="..\..\..\..\test\test_graph.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="..\..\..\..\test\test_kruskl.cpp" />
     <ClCompile Include="..\..\..\..\test\test_queue.cpp" />
     <ClCompile Include="..\..\..\..\test\test_SepSet.cpp" />
+    <ClCompile Include="test_AVL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\d-tree-lib\d-tree-lib.vcxproj">

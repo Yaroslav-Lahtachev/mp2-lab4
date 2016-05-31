@@ -62,6 +62,11 @@ namespace view_graph {
 	private: System::Windows::Forms::Label^  labelMinW;
 	private: System::Windows::Forms::NumericUpDown^  qnumUpDown;
 	private: System::Windows::Forms::Label^  label1;
+	private: System::Windows::Forms::Button^  queueOk;
+	private: System::Windows::Forms::TextBox^  startBox;
+	private: System::Windows::Forms::TextBox^  weightBox;
+	private: System::Windows::Forms::TextBox^  endBox;
+	private: System::Windows::Forms::Button^  addEdge;
 
 	private:
 		/// <summary>
@@ -93,6 +98,11 @@ namespace view_graph {
 			this->labelMinW = (gcnew System::Windows::Forms::Label());
 			this->qnumUpDown = (gcnew System::Windows::Forms::NumericUpDown());
 			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->queueOk = (gcnew System::Windows::Forms::Button());
+			this->startBox = (gcnew System::Windows::Forms::TextBox());
+			this->weightBox = (gcnew System::Windows::Forms::TextBox());
+			this->endBox = (gcnew System::Windows::Forms::TextBox());
+			this->addEdge = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->edgUpDown))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->verUpDown))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->minWUpDown))->BeginInit();
@@ -293,11 +303,57 @@ namespace view_graph {
 			this->label1->Text = L"queue type";
 			this->label1->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
+			// queueOk
+			// 
+			this->queueOk->Location = System::Drawing::Point(115, 450);
+			this->queueOk->Name = L"queueOk";
+			this->queueOk->Size = System::Drawing::Size(100, 50);
+			this->queueOk->TabIndex = 35;
+			this->queueOk->Text = L"Apply";
+			this->queueOk->UseVisualStyleBackColor = true;
+			this->queueOk->Click += gcnew System::EventHandler(this, &MyForm::queueOk_Click);
+			// 
+			// startBox
+			// 
+			this->startBox->Location = System::Drawing::Point(5, 500);
+			this->startBox->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->startBox->Name = L"startBox";
+			this->startBox->Size = System::Drawing::Size(47, 22);
+			this->startBox->TabIndex = 15;
+			// 
+			// weightBox
+			// 
+			this->weightBox->Location = System::Drawing::Point(130, 500);
+			this->weightBox->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->weightBox->Name = L"weightBox";
+			this->weightBox->Size = System::Drawing::Size(47, 22);
+			this->weightBox->TabIndex = 16;
+			// 
+			// endBox
+			// 
+			this->endBox->Location = System::Drawing::Point(68, 500);
+			this->endBox->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->endBox->Name = L"endBox";
+			this->endBox->Size = System::Drawing::Size(47, 22);
+			this->endBox->TabIndex = 17;
+			// 
+			// addEdge
+			// 
+			this->addEdge->Location = System::Drawing::Point(5, 550);
+			this->addEdge->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->addEdge->Name = L"addEdge";
+			this->addEdge->Size = System::Drawing::Size(172, 39);
+			this->addEdge->TabIndex = 18;
+			this->addEdge->Text = L"Add";
+			this->addEdge->UseVisualStyleBackColor = true;
+			this->addEdge->Click += gcnew System::EventHandler(this, &MyForm::AddEdgeClick);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(934, 862);
+			//this->Controls->Add(this->queueOk);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->qnumUpDown);
 			this->Controls->Add(this->labelMinW);
@@ -315,6 +371,10 @@ namespace view_graph {
 			this->Controls->Add(this->labelEdg);
 			this->Controls->Add(this->labelVer);
 			this->Controls->Add(this->gViewer1);
+			this->Controls->Add(this->addEdge);
+			this->Controls->Add(this->endBox);
+			this->Controls->Add(this->weightBox);
+			this->Controls->Add(this->startBox);
 			this->MinimumSize = System::Drawing::Size(900, 550);
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
@@ -327,6 +387,7 @@ namespace view_graph {
 			this->PerformLayout();
 
 		}
+#pragma endregion
 #pragma endregion
 		Graph ^currGraph;
 		static unsigned int ver = 0;
@@ -341,10 +402,11 @@ namespace view_graph {
 	}
 
 	private: System::Void loadGraph() {
-		ifstream load("res.txt");
-		int tmpE, tmpV;
+		ifstream load("tree.txt");
+		int tmpE, tmpV, q;
 		load >> tmpV;
 		load >> tmpE;
+		
 		ver = tmpV;
 		edg = tmpE;
 		delete gViewer1->Graph;
@@ -436,7 +498,7 @@ namespace view_graph {
 	private: System::Void stepBystep_Click_1(System::Object^  sender, System::EventArgs^  e) {
 		Graph ^currGraph = gViewer1->Graph;
 		currGraph->GraphAttr->EdgeAttr->ArrowHeadAtTarget = Microsoft::Glee::Drawing::ArrowStyle::None;
-		ifstream load("res.txt");
+		ifstream load("tree.txt");
 		int tmpV, tmpE;
 		load >> tmpV;
 		load >> tmpE;
@@ -483,6 +545,145 @@ namespace view_graph {
 		stepBystep->Enabled = false;
 		findFrame->Enabled = false;
 		cancel->Enabled = true;
+	}
+	
+
+	private: System::Void queueOk_Click(System::Object^  sender, System::EventArgs^  e) {
+		createFile();
+		System::String^ sourseGraph = "res0.txt";
+		System::String^ pathToExec1 = "sample-Kruskl.exe";
+		if (createProcFile(pathToExec1, sourseGraph))
+			return;
+	}
+
+	private: int createProcFile(System::String^ pathToExec, System::String^ sourseGraph) {
+
+		System::String^ fullCommandLineS = System::String::Concat(pathToExec, " ", sourseGraph);
+		wchar_t *argPtr = (wchar_t *)Marshal::StringToHGlobalUni(fullCommandLineS).ToPointer();
+
+		STARTUPINFO si;
+		PROCESS_INFORMATION pi;
+		ZeroMemory(&pi, sizeof(pi));
+		ZeroMemory(&si, sizeof(STARTUPINFO));
+
+		if (CreateProcess(0, argPtr, 0, 0, TRUE, CREATE_NO_WINDOW, 0, 0, &si, &pi))
+			WaitForSingleObject(pi.hProcess, INFINITE);
+		else {
+			CloseHandle(pi.hProcess);
+			CloseHandle(pi.hThread);
+			return -1;
+		}
+
+		DWORD exitCode;
+		GetExitCodeProcess(pi.hProcess, &exitCode);
+		if (exitCode) {
+			System::String^ message = "Error!\nSomething went wrong!";
+			System::String^ caption = "Error";
+			MessageBox::Show(message, caption, MessageBoxButtons::OK, MessageBoxIcon::Question);
+			return -2;
+		}
+		CloseHandle(pi.hProcess);
+		CloseHandle(pi.hThread);
+		return 0;
+	}
+	private: System::Void createFile() {
+		using namespace std;
+		fstream input;
+		input.open("tree.txt", fstream::in | fstream::out);
+		if (!input) {
+			ofstream ofs("tree.txt");
+			ofs.close();
+		}
+		remove("res0.txt");
+		ofstream graph("res0.txt");
+
+		int n = 0, m = 0;
+		input >> n;
+		input >> m;
+		int isConnected;
+		input >> isConnected;
+
+		qnum = (int)qnumUpDown->Value;
+
+		graph << n << ' ' << m << ' ' << qnum;
+
+		int N, K;
+		float weight;
+		for (int j = 0; j < m; j++) {
+			graph << endl;
+			input >> N;
+			input >> K;
+			input >> weight;
+			graph << N << ' ' << K << ' ' << weight;
+		}
+		input.close();
+		graph.close();
+	}
+	private: System::Void AddEdgeClick(System::Object^  sender, System::EventArgs^  e) {
+		stepBystep->Enabled = true;
+		findFrame->Enabled = true;
+		using namespace std;
+		int newN;
+		int newK;
+		float newWeight;
+		try {
+			newN = (int)(Convert::ToInt32(startBox->Text));
+			newK = (int)(Convert::ToInt32(endBox->Text));
+			newWeight = (float)(Convert::ToDouble(weightBox->Text));
+		}
+		catch (...) {
+			System::String^ message = "Error!\nInvalid parametrs for edge!";
+			System::String^ caption = "Error";
+			MessageBox::Show(message, caption, MessageBoxButtons::OK, MessageBoxIcon::Question);
+			return;
+		}
+
+		fstream input;
+		input.open("tree.txt", fstream::in | fstream::out);
+		if (!input) {
+			ofstream ofs("tree.txt");
+			ofs.close();
+		}
+
+		remove("res0.txt");
+		ofstream graph("res0.txt");
+
+		int n = 0, m = 0;
+		input >> n;
+		input >> m;
+		
+
+
+		if ((newN >= n) || (newK >= n))
+			n = max(newN + 1, newK + 1);
+
+		qnum = (int)qnumUpDown->Value;
+		graph << n << ' ' << m + 1 << ' ' << qnum << endl;
+
+
+		ver = n;
+		edg = m + 1;
+
+		int N, K;
+		float weight;
+		for (int j = 0; j < m; j++) {
+			input >> N;
+			input >> K;
+			input >> weight;
+			graph << N << ' ' << K << ' ' << weight << endl;
+		}
+
+		graph << newN << ' ' << newK << ' ' << newWeight;
+
+		input.close();
+		graph.close();
+
+		System::String^ sourseGraph = "res0.txt";
+		System::String^ pathToExec1 = "sample-Kruskl.exe";
+		if (createProcFile(pathToExec1, sourseGraph))
+			return;
+	
+		loadGraph();
 	}
 	};
 }

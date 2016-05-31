@@ -14,7 +14,10 @@
     <ClCompile Include="..\..\..\..\src\queue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="queue-avl.cpp">
+    <ClCompile Include="..\..\..\..\src\queue-avl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\queue-table.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

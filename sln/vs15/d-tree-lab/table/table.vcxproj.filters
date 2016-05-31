@@ -11,12 +11,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="table.h">
+    <ClInclude Include="..\..\..\..\include\table.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="table.cpp">
+    <ClCompile Include="..\..\..\..\src\ScanTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\SortTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\table.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

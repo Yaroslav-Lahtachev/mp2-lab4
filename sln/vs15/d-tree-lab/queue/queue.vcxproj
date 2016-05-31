@@ -19,8 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\src\queue-avl.cpp" />
+    <ClCompile Include="..\..\..\..\src\queue-table.cpp" />
     <ClCompile Include="..\..\..\..\src\queue.cpp" />
-    <ClCompile Include="queue-avl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\include\queue.h" />
